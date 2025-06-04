@@ -39,6 +39,7 @@ Os requisitos abaixo demonstram o escopo principal de funcionamento do projeto:
 
 ## Documentação
 - [Documentação - GreenTech](https://docs.google.com/document/d/1E2miqxP_V8ix20562Wmq-MNLhOliUm2y-9yt30IGp9Q/edit?tab=t.0)
+- [Figma - GreenTech](https://www.figma.com/design/eWX4aVKTRpB1WnOTYHYQ2Y/GreenTech?node-id=183-7&t=z7fTvLSnYJdU8T4u-0)
 
 ## Layout - Figma
 - Cadastro
