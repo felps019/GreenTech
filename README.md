@@ -56,3 +56,5 @@ Os requisitos abaixo demonstram o escopo principal de funcionamento do projeto:
 - Interface de vendas
   
 ![vender-1440 (1)](https://github.com/user-attachments/assets/8e9fbba1-7e11-4a41-aa03-1f440e2e60f2)
+
+- Caso queira ver o figma com mais detalhes, acesse: [Figma - GreenTech](https://www.figma.com/design/eWX4aVKTRpB1WnOTYHYQ2Y/GreenTech?node-id=183-7&t=z7fTvLSnYJdU8T4u-0)
