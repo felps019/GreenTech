@@ -223,8 +223,8 @@ public class Menu {
 			scanner.nextLine();
 
 			if (idProduto == 0) {
-				continuarComprando = false; // Usuário decidiu parar de adicionar itens
-				break; // Sai do loop de adição
+				continuarComprando = false;
+				break;
 			}
 
 			Produto produtoSelecionado = null;
@@ -300,7 +300,6 @@ public class Menu {
 			return;
 		}
 
-		// Lógica de débito da carteira do comprador (APENAS SE FOR CARTEIRA)
 		if (formaPagamentoFinal.equals("CARTEIRA")) {
 			compradorLogado.getCarteira().saque(valorTotalCarrinho);
 			System.out
@@ -310,15 +309,10 @@ public class Menu {
 					.println("Débito da carteira do comprador não aplicável para esta forma de pagamento (simulado externo).");
 		}
 
-		// Lógica de CRÉDITO na carteira do vendedor principal (SEMPRE que o pagamento
-		// for aprovado)
 		vendedorPrincipal.getCarteira().adicionarSaldo(valorTotalCarrinho);
 		System.out.println(
 				"Depósito de R$" + String.format("%.2f", valorTotalCarrinho) + " realizado na carteira do vendedor principal.");
 
-		// --- Criação do Pedido ---
-		// Agora o Pedido recebe a lista de itens do carrinho e o valor total do
-		// carrinho
 		Pedido novoPedido = new Pedido(carrinho.getItens(), valorTotalCarrinho, formaPagamentoFinal, compradorLogado,
 				vendedorPrincipal);
 		if (formaPagamentoFinal.equals(Pedido.FormaPagamento.CARTAOCREDITO.getCodigo()) && parcelas > 1) {
@@ -331,7 +325,7 @@ public class Menu {
 				novoPedido.getIdPedido(),
 				compradorLogado,
 				vendedorPrincipal,
-				carrinho.getItens().get(0).getProduto(), // Pega o primeiro produto para a NF, se houver
+				carrinho.getItens().get(0).getProduto(),
 				valorTotalCarrinho,
 				novoPedido);
 
@@ -380,7 +374,7 @@ public class Menu {
 				comprador.getEmail(),
 				vendedor.getNome(),
 				vendedor.getCpf_cnpj(),
-				123456, // IE/IM exemplo
+				123456,
 				vendedor.getEmail(),
 				produtoReferencia.getId_prod(),
 				valorTotal,
@@ -408,7 +402,7 @@ public class Menu {
 			scanner.nextLine();
 
 			switch (opcaoPagamento) {
-				case 1: // Carteira
+				case 1:
 					if (comprador.getCarteira().getSaldo() < valorTotal) {
 						System.out.println("Saldo insuficiente na carteira para esta compra.");
 					} else {
@@ -442,7 +436,7 @@ public class Menu {
 					pagamentoAprovado = true;
 					break;
 
-				case 3: // PIX
+				case 3:
 					System.out.println("\n--- Pagamento via PIX ---");
 					System.out.println("Chave PIX do Vendedor: " + vendedor.getEmail());
 					System.out.printf("Valor a pagar: R$ %.2f\n", valorTotal);
@@ -452,7 +446,7 @@ public class Menu {
 					pagamentoAprovado = true;
 					break;
 
-				case 4: // Boleto
+				case 4:
 					System.out.println("\n--- Pagamento via Boleto ---");
 					System.out.printf("Valor do boleto: R$ %.2f\n", valorTotal);
 					System.out.println("Boleto gerado. O pagamento será processado após a compensação bancária.");
@@ -461,9 +455,9 @@ public class Menu {
 					pagamentoAprovado = true;
 					break;
 
-				case 5: // Cancelar Pagamento
+				case 5:
 					System.out.println("Pagamento cancelado pelo usuário.");
-					return new Object[] { "CANCELADO", false, 1 }; // Retorna que foi cancelado
+					return new Object[] { "CANCELADO", false, 1 };
 				default:
 					System.out.println("Opção de pagamento inválida. Tente novamente.");
 			}
@@ -530,7 +524,7 @@ public class Menu {
 					double excedenteAtual = kwhComPotencial - consumoAlvo;
 					if (melhorProximaCota == null
 							|| (kwhTotalSugerido + melhorProximaCota.getCapacidadeKwhPorUnidade() > consumoAlvo)) {
-						if (excedenteAtual < menorExcedenteKwh) { // Se este excedente é menor
+						if (excedenteAtual < menorExcedenteKwh) {
 							menorExcedenteKwh = excedenteAtual;
 							menorCustoPorKwhExcedente = custoPorKwhDaCota;
 							melhorProximaCota = cota;

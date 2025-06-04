@@ -50,22 +50,18 @@ public class Produto {
         this.preco = preco;
     }
 
-    // ALTERADO: Getter para a capacidade em kWh por unidade
     public int getCapacidadeKwhPorUnidade() {
         return capacidadeKwhPorUnidade;
     }
 
-    // ALTERADO: Setter para a capacidade em kWh por unidade
     public void setCapacidadeKwhPorUnidade(int capacidadeKwhPorUnidade) {
         this.capacidadeKwhPorUnidade = capacidadeKwhPorUnidade;
     }
 
-    // NOVO: Getter para o estoque de unidades
     public int getEstoqueUnidadesDisponiveis() {
         return estoqueUnidadesDisponiveis;
     }
 
-    // NOVO: Setter para o estoque de unidades
     public void setEstoqueUnidadesDisponiveis(int estoqueUnidadesDisponiveis) {
         this.estoqueUnidadesDisponiveis = estoqueUnidadesDisponiveis;
     }
@@ -146,7 +142,7 @@ public class Produto {
         System.out.println("Descrição: " + descricao);
         System.out.println("Preço: R$ " + String.format("%.2f", preco));
         System.out.println("Cota (capacidade por unidade): " + capacidadeKwh + " kWh");
-        System.out.println("Estoque Disponível: " + estoque + " unidades"); // NOVO: Exibe estoque
+        System.out.println("Estoque Disponível: " + estoque + " unidades");
         System.out.println("ID do Vendedor: " + id_vendedor);
         System.out.println("------------------------------");
         System.out.println("Produto adicionado à lista de produtos do vendedor.");
