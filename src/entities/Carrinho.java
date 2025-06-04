@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Carrinho {
-  private List<ItemCarrinho> itens; // Lista de itens no carrinho
+  private List<ItemCarrinho> itens;
 
   public Carrinho() {
     this.itens = new ArrayList<>();
@@ -15,7 +15,6 @@ public class Carrinho {
       System.out.println("Quantidade de unidades inválida.");
       return;
     }
-    // Verificar se o produto já existe no carrinho para atualizar a quantidade
     for (ItemCarrinho item : itens) {
       if (item.getProduto().getId_prod() == produto.getId_prod()) {
         item.setQuantidadeUnidades(item.getQuantidadeUnidades() + quantidadeUnidades);
@@ -24,7 +23,6 @@ public class Carrinho {
         return;
       }
     }
-    // Se o produto não está no carrinho, adiciona um novo item
     itens.add(new ItemCarrinho(produto, quantidadeUnidades));
     System.out.println(quantidadeUnidades + " unidades de " + produto.getNome_prod() + " adicionadas ao carrinho.");
   }
@@ -38,7 +36,6 @@ public class Carrinho {
     return itens;
   }
 
-  // Calcula o valor total de todos os itens no carrinho
   public float getValorTotalCarrinho() {
     float total = 0;
     for (ItemCarrinho item : itens) {
@@ -47,7 +44,6 @@ public class Carrinho {
     return total;
   }
 
-  // Calcula o total de kWh de todos os itens no carrinho
   public int getTotalKwhCarrinho() {
     int totalKwh = 0;
     for (ItemCarrinho item : itens) {

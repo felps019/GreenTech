@@ -71,7 +71,7 @@ public class Pedido {
 					.append(item.getProduto().getCapacidadeKwhPorUnidade()).append(" kWh cada) | Subtotal: R$ ")
 					.append(String.format("%.2f", item.getSubtotal())).append("\n");
 		}
-		sb.append("Total de kWh do Pedido: ").append(getTotalKwhPedido()).append(" kWh\n"); // Adiciona o total de kWh
+		sb.append("Total de kWh do Pedido: ").append(getTotalKwhPedido()).append(" kWh\n");
 		sb.append("Valor Total do Pedido: R$ ").append(String.format("%.2f", valorTotal)).append("\n");
 		sb.append("Forma de Pagamento: ").append(forma_pagamento);
 		if (forma_pagamento.equals(FormaPagamento.CARTAOCREDITO.getCodigo()) && parcelas > 1) {
@@ -96,7 +96,7 @@ public class Pedido {
 		if (notaFiscal != null) {
 			notaFiscal.exibirNota();
 		}
-		System.out.println("--------------------------------------"); // Separador final
+		System.out.println("--------------------------------------");
 	}
 
 	public void gerarNotaFiscal(NotaFiscal nf) {
