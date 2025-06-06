@@ -1,14 +1,14 @@
 package app;
 
-import entities.Avaliacoes;
-import entities.Carrinho;
-import entities.Comprador;
-import entities.ItemCarrinho;
-import entities.NotaFiscal;
-import entities.Pedido;
-import entities.Produto;
-import entities.Usuario;
-import entities.Vendedor;
+import entities.checkout.Carrinho;
+import entities.checkout.ItemCarrinho;
+import entities.checkout.NotaFiscal;
+import entities.checkout.Pedido;
+import entities.product.Produto;
+import entities.users.Avaliacoes;
+import entities.users.Comprador;
+import entities.users.Usuario;
+import entities.users.Vendedor;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -48,7 +48,7 @@ public class Menu {
 					comprar(scanner, compradorLogado);
 					break;
 				case 4:
-					gerarRelatorioSugestao(compradorLogado, entities.Produto.getProdutosList());
+					gerarRelatorioSugestao(compradorLogado, entities.product.Produto.getProdutosList());
 					break;
 				case 5:
 					menuCarteira(scanner, compradorLogado);
@@ -160,7 +160,7 @@ public class Menu {
 					menuVender(scanner, vendedorLogado);
 					break;
 				case 3:
-					entities.Vendedor.exibirHistoricoVendas(vendedorLogado);
+					entities.users.Vendedor.exibirHistoricoVendas(vendedorLogado);
 					break;
 				case 4:
 					vendedorLogado.exibirAvaliacoesRecebidas();
@@ -202,13 +202,13 @@ public class Menu {
 
 			switch (opcao) {
 				case 1:
-					entities.Produto.cadastroProduto(scanner, vendedorLogado);
+					entities.product.Produto.cadastroProduto(scanner, vendedorLogado);
 					break;
 				case 2:
 					vendedorLogado.listarProdutos(); // Chama o método do vendedor para listar seus produtos
 					break;
 				case 3:
-					entities.Vendedor.exibirHistoricoVendas(vendedorLogado);
+					entities.users.Vendedor.exibirHistoricoVendas(vendedorLogado);
 					break;
 				case 4:
 					System.out.println("\nVoltando ao menu principal...");
@@ -239,7 +239,7 @@ public class Menu {
 					"Saldo atual da sua carteira: R$ " + String.format("%.2f", compradorLogado.getCarteira().getSaldo()));
 			System.out.println("\n--- Produtos Disponíveis para Compra ---");
 
-			if (entities.Produto.getProdutosList().isEmpty()) {
+			if (entities.product.Produto.getProdutosList().isEmpty()) {
 				System.out.println("Nenhum produto disponível para compra no momento.");
 				if (carrinho.estaVazio()) {
 					System.out.println("\n! Não há produtos para adicionar. Compra cancelada.");
@@ -250,7 +250,7 @@ public class Menu {
 				}
 			}
 
-			for (Produto p : entities.Produto.getProdutosList()) {
+			for (Produto p : entities.product.Produto.getProdutosList()) {
 				p.exibirProduto();
 				System.out.println("------------------------------------------------------------");
 			}
@@ -265,7 +265,7 @@ public class Menu {
 			}
 
 			Produto produtoSelecionado = null;
-			for (Produto p : entities.Produto.getProdutosList()) {
+			for (Produto p : entities.product.Produto.getProdutosList()) {
 				if (p.getId_prod() == idProduto) {
 					produtoSelecionado = p;
 					break;
@@ -321,7 +321,7 @@ public class Menu {
 		Vendedor vendedorPrincipal = null;
 		if (!carrinho.estaVazio()) {
 			Produto primeiroProduto = carrinho.getItens().get(0).getProduto();
-			for (Usuario u : entities.Usuario.getUsuariosList()) {
+			for (Usuario u : entities.users.Usuario.getUsuariosList()) {
 				if (u instanceof Vendedor && u.getId() == primeiroProduto.getId_vendedor()) {
 					vendedorPrincipal = (Vendedor) u;
 					break;
