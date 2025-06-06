@@ -18,15 +18,13 @@ public class Usuario {
 	private String data_nasc;
 	private tipoUsuario tipo_usuario;
 	private Carteira carteira;
-	private List<Pedido> pedidos;
+	private float mediaConsumoMensal;
 	private Logradouro cep;
 	private Logradouro logradouro;
 	private Bairro bairro;
 	private Cidade cidade;
 	private Uf uf;
-	private float mediaConsumoMensal;
-	private static Comprador compradorLogado = null;
-	private static Vendedor vendedorLogado = null;
+
 	private static List<Usuario> usuarios = new ArrayList<>();
 
 	public Usuario(String nome, String email, String senha, tipoUsuario tipo_usuario, String data_nasc,
@@ -120,6 +118,46 @@ public class Usuario {
 		this.mediaConsumoMensal = mediaConsumoMensal;
 	}
 
+	public Logradouro getCep() {
+		return cep;
+	}
+
+	public void setCep(Logradouro cep) {
+		this.cep = cep;
+	}
+
+	public Logradouro getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(Logradouro logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public Bairro getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(Bairro bairro) {
+		this.bairro = bairro;
+	}
+
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
+
+	public Uf getUf() {
+		return uf;
+	}
+
+	public void setUf(Uf uf) {
+		this.uf = uf;
+	}
+
 	public tipoUsuario getTipoUsuario() {
 		return tipo_usuario;
 	}
@@ -147,11 +185,9 @@ public class Usuario {
 		}
 		if (usuarioLogado != null) {
 			if (usuarioLogado.getTipoUsuario() == tipoUsuario.COMPRADOR) {
-				compradorLogado = (Comprador) usuarioLogado;
-				return compradorLogado;
+				return (Comprador) usuarioLogado;
 			} else if (usuarioLogado.getTipoUsuario() == tipoUsuario.VENDEDOR) {
-				vendedorLogado = (Vendedor) usuarioLogado;
-				return vendedorLogado;
+				return (Vendedor) usuarioLogado;
 			}
 		} else {
 			System.out.println("Credenciais inválidas.");
@@ -168,15 +204,20 @@ public class Usuario {
 	}
 
 	public String getEndereço() {
-		return logradouro + ", " + bairro + ", " + cidade + "-" + uf + " - " + cep;
+		String logradouroStr = (this.logradouro != null) ? this.getLogradouro().toString() : "N/A";
+		String bairroStr = (this.bairro != null) ? this.getBairro().toString() : "N/A";
+		String cidadeStr = (this.cidade != null) ? this.getCidade().toString() : "N/A";
+		String ufStr = (this.uf != null) ? this.getUf().toString() : "N/A";
+		String cepStr = (this.cep != null) ? this.getCep().getCep() : "N/A";
+
+		return logradouroStr + ", " + bairroStr + ", " + cidadeStr + "-" + ufStr + " - CEP: " + cepStr;
 	}
 
 	public void meusDados() {
 		if (this.logado) {
 			System.out.println("ID: " + this.id_usuario + "\n" + "Nome: " + this.nome + "\n" + "Email: " + this.email
 					+ "\n" + "Telefone: " + this.telefone + "\n" + "CPF/CNPJ: " + this.cpf_cnpj + "\n" + "Endereço: "
-					+ this.logradouro + ", " + this.cidade + "-" + this.uf + " - " + this.cep + "\n" + "Data Nascimento: "
-					+ this.data_nasc);
+					+ this.getEndereço() + "\n" + "Data Nascimento: " + this.data_nasc);
 		} else {
 			System.out.println("Faça login para visualizar seus dados!");
 		}
@@ -201,7 +242,7 @@ public class Usuario {
 					System.out.println("CNPJ: " + this.cpf_cnpj);
 					break;
 				case "endereço":
-					System.out.println("Endereço: " + this.logradouro + ", " + this.cidade + "-" + this.uf + " - " + this.cep);
+					System.out.println("Endereço: " + this.getEndereço());
 					break;
 				default:
 					System.out.println("Dado inválido");
@@ -241,33 +282,98 @@ public class Usuario {
 		}
 	}
 
+	private static boolean isValidEmail(String email) {
+		return email != null && email.contains("@") && email.contains(".com");
+	}
+
+	private static boolean isEmailAlreadyRegistered(String email) {
+		for (Usuario u : usuarios) {
+			if (u.getEmail().equalsIgnoreCase(email)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static boolean isValidCPF(String cpf) {
+		if (cpf == null || cpf.isEmpty()) {
+			return false;
+		}
+		String cleanCpf = cpf.replaceAll("[^0-9]", "");
+		return cleanCpf.length() == 11;
+	}
+
+	private static boolean isCpfCnpjAlreadyRegistered(String cpfCnpj) {
+		String cleanCpfCnpj = cpfCnpj.replaceAll("[^0-9]", "");
+		for (Usuario u : usuarios) {
+			if (u.getCpf_cnpj().replaceAll("[^0-9]", "").equals(cleanCpfCnpj)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static void cadastroUsuario(Scanner scanner) {
 		System.out.print("Nome: ");
 		String nome = scanner.nextLine();
-		System.out.print("Email: ");
-		String email = scanner.nextLine();
+
+		String email;
+		while (true) {
+			System.out.print("Email: ");
+			email = scanner.nextLine();
+			if (!isValidEmail(email)) {
+				System.out.println("! Formato de email inválido. Deve conter '@' e '.com'.");
+			} else if (isEmailAlreadyRegistered(email)) {
+				System.out.println("! Este email já está em uso. Por favor, digite outro email.");
+			} else {
+				break;
+			}
+		}
+
 		System.out.print("Senha: ");
 		String senha = scanner.nextLine();
 		System.out.print("Tipo (1 - Comprador, 2 - Vendedor): ");
 		int tipo = scanner.nextInt();
 		scanner.nextLine();
-		System.out.print("Data de nascimento: ");
-		String dataNasc = scanner.nextLine();
-		System.out.print("CPF/CNPJ: ");
-		String cpfCnpj = scanner.nextLine();
+
+		String cpfCnpj;
+		while (true) {
+			System.out.print("CPF/CNPJ: ");
+			cpfCnpj = scanner.nextLine();
+
+			if (tipo == 1) {
+				if (!isValidCPF(cpfCnpj)) {
+					System.out.println("! CPF inválido. Deve conter exatamente 11 dígitos numéricos.");
+					continue;
+				}
+			}
+
+			if (isCpfCnpjAlreadyRegistered(cpfCnpj)) {
+				System.out.println("! Este CPF/CNPJ já está em uso. Por favor, digite outro.");
+			} else {
+				break;
+			}
+		}
+
 		System.out.print("Telefone: ");
 		String telefone = scanner.nextLine();
-		System.out.print("Cep: ");
-		String cep = scanner.nextLine();
-		System.out.print("Endereço: ");
-		String endereco = scanner.nextLine();
-		Logradouro logradouro = new Logradouro(cep, endereco);
+		System.out.print("Data de nascimento (DD/MM/AAAA): ");
+		String dataNasc = scanner.nextLine();
+
+		System.out.print("CEP: ");
+		String cepStr = scanner.nextLine();
+		System.out.print("Endereço (Rua/Avenida): ");
+		String enderecoStr = scanner.nextLine();
+		Logradouro logradouro = new Logradouro(cepStr, enderecoStr);
+
 		System.out.print("Bairro: ");
 		String novoBairro = scanner.nextLine();
 		Bairro bairro = new Bairro(novoBairro);
+
 		System.out.print("Cidade: ");
 		String novaCidade = scanner.nextLine();
 		Cidade cidade = new Cidade(novaCidade);
+
 		System.out.print("UF: ");
 		String novoUf = scanner.nextLine();
 		Uf uf = new Uf(novoUf);
@@ -290,6 +396,6 @@ public class Usuario {
 					bairro, cidade, uf);
 		}
 		entities.Usuario.adicionarListagemUsuarios(novoUsuario);
-		System.out.println("Cadastro realizado com sucesso!");
+		System.out.println("\n--- Cadastro realizado com sucesso! ---");
 	}
 }

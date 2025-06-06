@@ -3,8 +3,6 @@ import entities.Usuario;
 import entities.Vendedor;
 import java.util.Scanner;
 
-import app.MockData;
-
 public class Main {
 	private static Usuario usuarioLogado = null;
 	private static Comprador compradorLogado = null;
@@ -13,16 +11,15 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 
-		MockData.loadMockData();
-
 		while (true) {
-			System.out.println("_______________________________________________");
-			System.out.println("\nMenu:");
-			System.out.println("1. Login");
-			System.out.println("2. Cadastro de Usuário");
-			System.out.println("3. Sair");
-			System.out.println("_______________________________________________");
-			System.out.print("Escolha uma opção: ");
+			System.out.println("\n============================================================");
+			System.out.println("            BEM-VINDO(A) AO GREENTECH SOLAR               ");
+			System.out.println("============================================================");
+			System.out.println(" 1. Fazer Login");
+			System.out.println(" 2. Crie sua conta GreenTech");
+			System.out.println(" 3. Sair da Aplicação");
+			System.out.println("============================================================");
+			System.out.print(">>> Escolha uma opção: ");
 			int opcao = scanner.nextInt();
 			scanner.nextLine();
 
@@ -45,12 +42,15 @@ public class Main {
 					Usuario.cadastroUsuario(scanner);
 					break;
 				case 3:
-					System.out.println("Logout realizado com sucesso!");
+					System.out.println("\n--- Encerrando a aplicação. Obrigado(a) por usar o GreenTech! ---");
 					scanner.close();
 					return;
 				default:
-					System.out.println("Opção inválida. Tente novamente.");
+					System.out.println("\n! Opção inválida. Por favor, escolha um número entre 1 e 3.");
 			}
+			System.out.println("\n------------------------------------------------------------");
+			System.out.println("Pressione ENTER para continuar...");
+			scanner.nextLine();
 		}
 	}
 }
